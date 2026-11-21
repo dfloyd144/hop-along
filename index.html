@@ -63,7 +63,7 @@ button:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
   const WORLDS = {
     meadow: { safe: ['#8fdc7a', '#83d36d'], lane: '#5b6475', mark: '#eeeadb', rail: '#7b6450', hero: 'bunny', cars: ['#ff6b5e', '#ffc94d', '#5aa9ff', '#b98cff', '#ff9ecf'], big: '#f2f2f2', train: '#e2483d', warn: 'Train!' },
     reef: { safe: ['#f6dfa4', '#efd592'], lane: '#2f7fb8', mark: '#7cc0ea', rail: '#1f5f96', hero: 'axolotl', cars: ['#ffb347', '#ff7fa8', '#ffe066', '#8ee6c0', '#c9a6ff'], big: '#8d9bb0', train: '#3b5f9a', warn: 'Whale!' },
-    cave: { safe: ['#9383b3', '#8978aa'], lane: '#54466f', mark: '#b7a6d9', rail: '#463a5e', hero: 'gnome', cars: ['#ff6b5e', '#5aa9ff', '#ffc94d', '#8ee6c0', '#ff9ecf'], big: '#c9a36b', train: '#a79c96', warn: 'Rocks!' },
+    cave: { safe: ['#9383b3', '#8978aa'], lane: '#54466f', mark: '#b7a6d9', rail: '#463a5e', hero: 'alien', cars: ['#ff6b5e', '#5aa9ff', '#ffc94d', '#8ee6c0', '#ff9ecf'], big: '#c9a36b', train: '#a79c96', warn: 'Rocks!' },
   };
   let world = 'meadow', Wd = WORLDS.meadow;
   let W = 300, H = 400, cell = 56, dpr = 1;
@@ -208,10 +208,14 @@ button:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
       oval(0, 0, s * 1.1, s * 0.9, '#ffb3d4'); circ(-s * 0.45, -s * 0.12, s * 0.12, '#2b2f3a'); circ(s * 0.45, -s * 0.12, s * 0.12, '#2b2f3a');
       ctx.strokeStyle = '#7a4a5a'; ctx.lineWidth = s * 0.09; ctx.beginPath(); ctx.arc(0, s * 0.1, s * 0.4, 0.5, 2.64); ctx.stroke();
     } else {
-      // a little cave gnome: pointy hat with a glowing tip, round face, fluffy beard
-      tri(-s * 0.9, -s * 0.4, s * 0.9, -s * 0.4, 0, -s * 1.9, hat || '#ff6b5e'); circ(0, -s * 1.9, s * 0.34, 'rgba(255,233,150,.35)'); circ(0, -s * 1.9, s * 0.17, '#fff3c4');
-      circ(0, 0, s * 0.9, '#ffd9b8'); oval(0, s * 0.52, s * 0.82, s * 0.58, '#fff');
-      circ(-s * 0.32, -s * 0.12, s * 0.12, '#2b2f3a'); circ(s * 0.32, -s * 0.12, s * 0.12, '#2b2f3a'); circ(0, s * 0.12, s * 0.15, '#ffb08a');
+      // a little green cave alien: wiggly antennae with glowing tips, big leaf ears, huge friendly eyes, a bright scarf
+      const hc = hat || '#ff6b5e', g = '#8fd66a', wob = Math.sin(performance.now() / 260 + x) * s * 0.12;
+      ctx.strokeStyle = '#6fbf4f'; ctx.lineWidth = s * 0.13; ctx.lineCap = 'round';
+      [-1, 1].forEach((k) => { ctx.beginPath(); ctx.moveTo(k * s * 0.3, -s * 0.75); ctx.quadraticCurveTo(k * s * 0.35, -s * 1.3, k * s * 0.55 + wob, -s * 1.55); ctx.stroke(); circ(k * s * 0.55 + wob, -s * 1.55, s * 0.3, 'rgba(255,233,150,.35)'); circ(k * s * 0.55 + wob, -s * 1.55, s * 0.16, hc); });
+      [-1, 1].forEach((k) => { tri(k * s * 0.6, -s * 0.5, k * s * 0.75, s * 0.2, k * s * 1.65, -s * 0.45, g); tri(k * s * 0.8, -s * 0.3, k * s * 0.85, s * 0.02, k * s * 1.35, -s * 0.36, '#ffc2d6'); });
+      circ(0, 0, s * 0.92, g); oval(0, s * 0.72, s * 0.78, s * 0.24, hc);
+      [-1, 1].forEach((k) => { circ(k * s * 0.36, -s * 0.12, s * 0.3, '#fff'); circ(k * s * 0.36, -s * 0.1, s * 0.2, '#2b2f3a'); circ(k * s * 0.42, -s * 0.18, s * 0.07, '#fff'); });
+      ctx.strokeStyle = '#3f7a34'; ctx.lineWidth = s * 0.08; ctx.beginPath(); ctx.arc(0, s * 0.2, s * 0.26, 0.5, 2.64); ctx.stroke();
     }
     ctx.restore();
   }
